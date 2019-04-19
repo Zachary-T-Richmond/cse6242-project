@@ -16,7 +16,6 @@ import Button from '@material-ui/core/Button';
 
 
 
-
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -37,9 +36,24 @@ class CheckboxesGroup extends Component {
     five: false,
     six: false,
     seven: false,
-    eight: false,
-    nine: false,
-    data: null
+    data:[
+      { label: 'CRM', value: 1 },
+      { label: 'API', value: 1 },
+      { label: 'Data', value: 1 },
+      { label: 'Commerce', value: 1 },
+      { label: 'AI', value: 3 },
+      { label: 'Management', value: 5 },
+      { label: 'Testing', value: 6 },
+      { label: 'Mobile', value: 9 },
+      { label: 'Conversion', value: 9 },
+      { label: 'Misc', value: 21 },
+      { label: 'Databases', value: 22 },
+      { label: 'DevOps', value: 22 },
+      { label: 'Javascript', value: 23 },
+      { label: 'Languages / Frameworks', value: 25 },
+      { label: 'Front End', value: 26 },
+      { label: 'Content', value: 26 }
+    ]
   };
 
   handleChange = name => event => {
@@ -47,44 +61,61 @@ class CheckboxesGroup extends Component {
   };
 
   hide = () => {
-    this.setState({show: false})
+    this.setState({show: !this.state.show})
   }
+ 
   render() {
     const { classes } = this.props;
-    console.log(this.props)
     const { one, two, three, four, five, six, seven, eight, nine } = this.state;
-    const error = [one, two, three, four, five, six, seven, eight, nine].filter(v => v).length >= 3;
+
     return (
       <Router>
           <NavBar/>
           {this.state.show ? <div>
               <Grid container spacing={24}><Grid item xs></Grid><Grid item xs><Paper>
                     <FormControl component="fieldset" className={classes.formControl}>
-                      <FormLabel component="legend">Please Select From the Below Options:</FormLabel>
+                      <FormLabel component="legend">Please Check the box if the statement is TRUE:</FormLabel>
                       <FormGroup>
                         <FormControlLabel
                           control={<Checkbox checked={one} onChange={this.handleChange('one')} value="one" />}
-                          label="Statement One"
+                          label="I consider myself a worrier."
                         />
                         <FormControlLabel
                           control={<Checkbox checked={two} onChange={this.handleChange('two')} value="two" />}
-                          label="Statement Two"
+                          label="I visit the park at least once a month."
                         />
                         <FormControlLabel
                             control={<Checkbox checked={three} onChange={this.handleChange('three')} value="three" />}
-                            label="Statement Three"
+                            label="I am a smoker."
                         />
                         <FormControlLabel
                           control={<Checkbox checked={four} onChange={this.handleChange('four')} value="four" />}
-                          label="Statement Four"
+                          label="I am easily frustrated."
+                        />
+                        <FormControlLabel
+                          control={<Checkbox checked={five} onChange={this.handleChange('five')} value="five" />}
+                          label="I have children in school."
+                        />
+                        <FormControlLabel
+                            control={<Checkbox checked={six} onChange={this.handleChange('six')} value="six" />}
+                            label="I often work extra hours."
+                        />
+                        <FormControlLabel
+                          control={<Checkbox checked={seven} onChange={this.handleChange('seven')} value="seven" />}
+                          label="I prefer variety to routine."
                         />
                       </FormGroup>
-                      <Button component={Link} to="/results" variant="contained" color="secondary" onClick={this.hide}>Submit</Button>
+                      <Button 
+                      component={Link} to="/results" 
+                      variant="contained" color="secondary" onClick={this.hide}>Submit</Button>
                     </FormControl>
                   </Paper></Grid><Grid item xs></Grid></Grid>
           </div> : null}
-          <Route exact path="/results" component={Results} />
-
+          {!this.state.show ?<div>
+                <Route exact path="/results" render={ (props) => <Results {...props} allData = {this.state} /> } />
+                <Button component={Link} to="/"
+                variant="contained" color="secondary" onClick={this.hide}>Back</Button>
+          </div> : null}
       </Router>
     );
   }
