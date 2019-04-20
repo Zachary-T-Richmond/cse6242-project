@@ -34,8 +34,15 @@ class CheckboxesGroup extends Component {
     3: false,
     4: false,
     5: false,
-    // 6: false,
-    // 7: false,
+    6: false,
+    7: false,
+    8: false,
+    9: false,
+    10: false,
+    11: false,
+    12: false,
+    13: false,
+    14: false,
     data: [
       {
           "index":0,
@@ -135,6 +142,9 @@ class CheckboxesGroup extends Component {
       }
     );
   };
+  handleChange1 = name => event => {
+    console.log("hi")
+  }
 
   hide = () => {
     this.setState({show: !this.state.show})
@@ -148,9 +158,47 @@ class CheckboxesGroup extends Component {
       <Router>
           <NavBar/>
           {this.state.show ? <div>
-              <Grid container spacing={24}><Grid item xs></Grid><Grid item xs><Paper>
+              <Grid container spacing={24}>
+              <Grid item xs><Paper>
                     <FormControl component="fieldset" className={classes.formControl}>
-                      <FormLabel component="legend">Please Check the box if the statement is TRUE:</FormLabel>
+                      <FormLabel component="legend">Standard Mode | Select what is TRUE for you:</FormLabel>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={<Checkbox checked={one} onChange={this.handleChange1(8)} value="8" />}
+                          label="Safety"
+                        />
+                        <FormControlLabel
+                          control={<Checkbox checked={two} onChange={this.handleChange1(9)} value="9" />}
+                          label="Environment"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox checked={three} onChange={this.handleChange1(10)} value="10" />}
+                            label="Healthcare"
+                        />
+                        <FormControlLabel
+                          control={<Checkbox checked={four} onChange={this.handleChange1(11)} value="11" />}
+                          label="Transportation"
+                        />
+                        <FormControlLabel
+                          control={<Checkbox checked={five} onChange={this.handleChange1(12)} value="12" />}
+                          label="Government/Education"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox checked={six} onChange={this.handleChange1(13)} value="13" />}
+                            label="Career/Job"
+                        />
+                        <FormControlLabel
+                          control={<Checkbox checked={seven} onChange={this.handleChange1(14)} value="14" />}
+                          label="Recreation/Amenities"
+                        />
+                      </FormGroup>
+                      <Button 
+                      component={Link} to="/results" 
+                      variant="contained" color="secondary" onClick={this.hide}>Submit</Button>
+                    </FormControl>
+                  </Paper></Grid><Grid item xs><Paper>
+                    <FormControl component="fieldset" className={classes.formControl}>
+                      <FormLabel component="legend">Pyschological Mode | Select what is TRUE for you:</FormLabel>
                       <FormGroup>
                         <FormControlLabel
                           control={<Checkbox checked={one} onChange={this.handleChange(1)} value="1" />}
@@ -172,24 +220,25 @@ class CheckboxesGroup extends Component {
                           control={<Checkbox checked={five} onChange={this.handleChange(5)} value="5" />}
                           label="I have children in school."
                         />
-                        {/* <FormControlLabel
-                            control={<Checkbox checked={six} onChange={this.handleChange(6)} value={6} />}
+                        <FormControlLabel
+                            control={<Checkbox checked={six} onChange={this.handleChange(6)} value="6" />}
                             label="I often work extra hours."
                         />
                         <FormControlLabel
-                          control={<Checkbox checked={seven} onChange={this.handleChange(7)} value={7} />}
+                          control={<Checkbox checked={seven} onChange={this.handleChange(7)} value="7" />}
                           label="I prefer variety to routine."
-                        /> */}
+                        />
                       </FormGroup>
                       <Button 
                       component={Link} to="/results" 
                       variant="contained" color="secondary" onClick={this.hide}>Submit</Button>
                     </FormControl>
-                  </Paper></Grid><Grid item xs></Grid></Grid>
+                  </Paper></Grid>
+                  </Grid>
           </div> : null}
           {!this.state.show ?<div>
             <Grid container spacing={24}><Grid item xs></Grid><Grid item xs><Paper>
-            <Button component={Link} to="/"
+            <Button component={Link} to="/cse6242"
                 variant="contained" color="secondary" onClick={this.hide}>Back</Button>
                 <Route exact path="/results" render={ (props) => <Results {...props} allData = {this.state.data} winningCityName = {this.state.winner}/> } />
                 </Paper></Grid><Grid item xs></Grid></Grid>   
