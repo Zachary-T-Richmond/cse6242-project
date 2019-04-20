@@ -1,6 +1,9 @@
 import React from 'react';
 import * as d3 from 'd3';
 import tooltip from './tooltip';
+import Axios from 'axios';
+
+
 
 export default class Bubbles extends React.Component {
   constructor(props) {
@@ -98,7 +101,7 @@ export default class Bubbles extends React.Component {
                   <tspan x=0 y=-4 dy="1.2em font-size='10px'">${d.name}</tspan>`;
         }
         if (d.value && !d.name) {
-          return `<tspan x=0 y=-6 dy="1em" font-weight='bold' font-size='10px'>${d.value}</tspan>`;
+          return `<tspan x=0 y=-6 dy="1em" font-weight='bold' font-size='10px'></tspan>`;
         }
         if (d.name && !d.value) {
           return `<tspan x=0 y=-6 dy="1em" font-size='10px'>${d.name}</tspan>`;
