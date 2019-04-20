@@ -66,7 +66,7 @@ class CheckboxesGroup extends Component {
  
   render() {
     const { classes } = this.props;
-    const { one, two, three, four, five, six, seven, eight, nine } = this.state;
+    const { one, two, three, four, five, six, seven} = this.state;
 
     return (
       <Router>
@@ -112,9 +112,11 @@ class CheckboxesGroup extends Component {
                   </Paper></Grid><Grid item xs></Grid></Grid>
           </div> : null}
           {!this.state.show ?<div>
-                <Route exact path="/results" render={ (props) => <Results {...props} allData = {this.state} /> } />
-                <Button component={Link} to="/"
+            <Grid container spacing={24}><Grid item xs></Grid><Grid item xs><Paper>
+            <Button component={Link} to="/"
                 variant="contained" color="secondary" onClick={this.hide}>Back</Button>
+                <Route exact path="/results" render={ (props) => <Results {...props} allData = {this.state} /> } />
+                </Paper></Grid><Grid item xs></Grid></Grid>   
           </div> : null}
       </Router>
     );
