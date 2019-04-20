@@ -5,10 +5,10 @@ This is the semester project for a Data and Visualization class; the team chose 
 The main framework for this application is React and it is deployed to GitHub pages. The team will be the first to note it does not take advantage of the entire React framework regarding state, props, and functional components. The reason for this is because the app uses D3.js to render the algorithm's output. Integrating React and D3.js was a difficult task and modifications to how the code should operate using React were changed. The main library used other than D3 was react-d3-bubble, which is an npm library. However, the team had to download the code, modify it, and plug it into the main code base because the library did not offer all the team needed out-of-the-box.
 
 ## Backlog
-Integrate with Google API to show heatmap of Atlanta divided by hub's GEOID.
-Develop an API to expose the team's data on Google Cloud Platform
-Modify the current code base to read the data from the above API
-Refactor the code base to take full advantage of the React Framework
+1. Integrate with Google API to show heatmap of Atlanta divided by hub's GEOID
+2. Develop an API to expose the team's data on Google Cloud Platform
+3. Modify the current code base to read the data from the above API
+4. Refactor the code base to take full advantage of the React Framework
 
 ## How to run the project
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
