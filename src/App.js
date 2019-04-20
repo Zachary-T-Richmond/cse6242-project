@@ -43,7 +43,9 @@ class CheckboxesGroup extends Component {
           "color": "#d32f2f",
           "radius": 45,
           "tooltip": "LFI: 35",
-          "factors": [1,1,1,1,5]
+          "LFI": 35,
+          "factors": [60,70,54,67,70],
+          "nameHold": "Alpharetta"
       },
       {
           "index":1,
@@ -51,7 +53,9 @@ class CheckboxesGroup extends Component {
           "color": "#d32f2f",
           "radius": 45,
           "tooltip": "LFI: 30",
-          "factors": [2,2,2,2,4]
+          "LFI": 30,
+          "factors": [47,23,92,22,64],
+          "nameHold": "Auburn"
       },
       {
           "index":2,
@@ -59,7 +63,9 @@ class CheckboxesGroup extends Component {
           "color": "#00bcd4",
           "radius": 10,
           "tooltip": "Brookhaven LFI: 25",
-          "factors": [3,3,3,3,3]
+          "LFI": 25,
+          "factors": [71,13,43,39,93],
+          "nameHold": "Brookhaven"
       },
       {
           "index":3,
@@ -67,7 +73,9 @@ class CheckboxesGroup extends Component {
           "color": "#00bcd4",
           "radius": 10,
           "tooltip": "Buckhead LFI: 20",
-          "factors": [5,5,5,5,2]
+          "LFI": 20,
+          "factors": [25,55,65,75,92],
+          "nameHold": "Buckhead"
       },
       {
         "index":3,
@@ -75,7 +83,9 @@ class CheckboxesGroup extends Component {
         "color": "#00bcd4",
         "radius": 10,
         "tooltip": "East Atlanta LFI: 15",
-        "factors": [6,6,6,6,1]
+        "LFI": 15,
+        "factors": [32,17,62,67,81],
+        "nameHold": "East Atlanta"
     }
   ]
   };
@@ -91,20 +101,39 @@ class CheckboxesGroup extends Component {
           })
           .filter(y => this.state[y])
         console.log(whatHasBeenSelected)  
-        let totalFactorSelected = 35/ whatHasBeenSelected.length  
-        console.log(totalFactorSelected)
+        let totalSelected = whatHasBeenSelected.length  
+        console.log(whatHasBeenSelected)
         let tempData = this.state.data
-    }
+        console.log(tempData)
+        let winnerCity = ""
+        let winningFactor = -1
+        for(let row in tempData){
+          if(totalSelected == 1){
+            let factor = tempData[row].factors[whatHasBeenSelected[0]-1]
+            tempData[row].LFI = factor
+            if(factor > 70){
+              tempData[row].tooltip = `LFI: ${factor}`
+              tempData[row].color = "#d32f2f"
+              tempData[row].radius = 45
+              tempData[row].name = tempData[row].nameHold
+            } else {
+              tempData[row].tooltip = `${tempData[row].nameHold} LFI: ${factor}`
+              tempData[row].color = "#00bcd4"
+              tempData[row].radius = 10
+              tempData[row].name = ""
+            }
+            if(factor> winningFactor){
+              winnerCity = tempData[row].nameHold
+              winningFactor = factor
+            }
+          }
+        }
+        this.setState({
+          data: tempData,
+          winner: winnerCity
+        })
+      }
     );
-
-  // afterSetStateFinished =() => {
-  //     console.log(whatHasBeenSelected)
-  // }
-    
-    // let mydata = this.state.data
-    // mydata.forEach(city =>{
-    //   console.log(city)
-    // })
   };
 
   hide = () => {
@@ -162,7 +191,7 @@ class CheckboxesGroup extends Component {
             <Grid container spacing={24}><Grid item xs></Grid><Grid item xs><Paper>
             <Button component={Link} to="/"
                 variant="contained" color="secondary" onClick={this.hide}>Back</Button>
-                <Route exact path="/results" render={ (props) => <Results {...props} allData = {this.state.data} /> } />
+                <Route exact path="/results" render={ (props) => <Results {...props} allData = {this.state.data} winningCityName = {this.state.winner}/> } />
                 </Paper></Grid><Grid item xs></Grid></Grid>   
           </div> : null}
       </Router>

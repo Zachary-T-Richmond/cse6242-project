@@ -2,13 +2,13 @@ import React from 'react';
 import ReactBubbleChart from './bubbles/index';
 import Typography from '@material-ui/core/Typography';
 
-const Results = ({ allData }) => {
-  console.log(allData)
-
+const Results = ({ allData, winningCityName }) => {
+  console.log(winningCityName)
+  if(winningCityName == null) winningCityName = "Atlanta"
   return (
     <div>
       <Typography variant="h4" align="center">
-        The best ATL hub for you: {allData[0].name}
+        The best ATL hub for you: {winningCityName}
       </Typography>
       <ReactBubbleChart data={allData} />
     </div>
