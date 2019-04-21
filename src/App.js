@@ -29,6 +29,7 @@ const styles = theme => ({
 class CheckboxesGroup extends Component {
 
   state = {
+    standardWeight: [1.23,1.20,1.15,1.1,1.1,1.12,1.1],
     winner: null,
     show: true,
     1: false,
@@ -448,7 +449,8 @@ class CheckboxesGroup extends Component {
               return t
             }
           })
-          .filter(y => this.state[y])
+          .filter(y => this.state[y]).map(e=>e-1)
+          
         // console.log(whatHasBeenSelected)  
         let totalSelected = whatHasBeenSelected.length  
         // console.log(whatHasBeenSelected)
@@ -458,7 +460,7 @@ class CheckboxesGroup extends Component {
         let winningFactor = -1
         for(let row in tempData){
           if(totalSelected == 1){
-            let factor = tempData[row].factors[whatHasBeenSelected[0]-1]
+            let factor = tempData[row].factors[whatHasBeenSelected[0]]
             tempData[row].LFI = factor
             if(factor > 80){
               tempData[row].tooltip = `LFI: ${factor}`
@@ -517,62 +519,95 @@ class CheckboxesGroup extends Component {
         }
         this.setState({
           data: tempData,
-          winner: winnerCity
+          winner: winnerCity,
         })
       }
     );
   };
   handleChange1 = name => event => {
-  //   this.setState({ [name]: event.target.checked}, ()=>{
-  //     let g = Object.keys(this.state)
-  //       .map(x => Number(x))
-  //       .filter(t=>{
-  //         if(!isNaN(t)){
-  //           return t
-  //         }
-  //       })
-  //       .filter(y => this.state[y])
-  //     console.log(g)  
-  //     let whatHasBeenSelected = g-7
-  //     let totalSelected = whatHasBeenSelected.length  
-  //     console.log(whatHasBeenSelected)
-  //     let tempData = this.state.data
-  //     console.log(tempData)
-  //     let winnerCity = ""
-  //     let winningFactor = -1
-  //     for(let row in tempData){
-  //       if(totalSelected == 1){
-  //         let factor = tempData[row].factors[whatHasBeenSelected[0]-1]
-  //         tempData[row].LFI = factor
-  //         if(factor > 80){
-  //           tempData[row].tooltip = `LFI: ${factor}`
-  //           tempData[row].color = "#b71c1c"
-  //           tempData[row].radius = 55
-  //           tempData[row].name = tempData[row].nameHold
-  //         } else if(factor>40 && factor <=79){
-  //           tempData[row].tooltip = `${tempData[row].nameHold} LFI: ${factor}`
-  //           tempData[row].color = "#f44336"
-  //           tempData[row].radius = 25
-  //           tempData[row].name = ""
-  //         }else{
-  //           tempData[row].tooltip = `${tempData[row].nameHold} LFI: ${factor}`
-  //           tempData[row].color = "#ffcdd2"
-  //           tempData[row].radius = 10
-  //           tempData[row].name = ""
-  //         }
-  //         if(factor> winningFactor){
-  //           winnerCity = tempData[row].nameHold
-  //           winningFactor = factor
-  //         }
-  //       }
-  //     }
-  //     this.setState({
-  //       data: tempData,
-  //       winner: winnerCity
-  //     })
-  //   }
-  // );
-  }
+    this.setState({ [name]: event.target.checked}, ()=>{
+      let whatHasBeenSelected = Object.keys(this.state)
+        .map(x => Number(x))
+        .filter(t=>{
+          if(!isNaN(t)){
+            return t
+          }
+        })
+        .filter(y => this.state[y]).map(q=> q-8)
+        
+      // console.log(whatHasBeenSelected)  
+      let totalSelected = whatHasBeenSelected.length  
+      // console.log(whatHasBeenSelected)
+      let tempData = this.state.data
+      // console.log(tempData)
+      let winnerCity = ""
+      let winningFactor = -1
+      for(let row in tempData){
+        if(totalSelected == 1){
+          let factor = tempData[row].factors[whatHasBeenSelected[0]]
+          tempData[row].LFI = this.state.standardWeight[whatHasBeenSelected[0]]*factor
+          if(factor > 80){
+            tempData[row].tooltip = `LFI: ${factor}`
+            tempData[row].color = "#b71c1c"
+            tempData[row].radius = 55
+            tempData[row].name = tempData[row].nameHold
+          } else if(factor>40 && factor <=79){
+            tempData[row].tooltip = `${tempData[row].nameHold} LFI: ${factor}`
+            tempData[row].color = "#f44336"
+            tempData[row].radius = 25
+            tempData[row].name = ""
+          }else{
+            tempData[row].tooltip = `${tempData[row].nameHold} LFI: ${factor}`
+            tempData[row].color = "#ffcdd2"
+            tempData[row].radius = 10
+            tempData[row].name = ""
+          }
+          if(factor> winningFactor){
+            winnerCity = tempData[row].nameHold
+            winningFactor = factor
+          }
+        } else {
+          var sum = 0
+          for(let selected in whatHasBeenSelected){
+            sum += this.state.standardWeight[selected]*tempData[row].factors[selected]
+          }
+          let factor = sum/whatHasBeenSelected.length
+          if(factor > 92){
+            tempData[row].tooltip = `LFI: ${factor}`
+            tempData[row].color = "#b71c1c"
+            tempData[row].radius = 70
+            tempData[row].name = tempData[row].nameHold
+          } else if(factor>60 && factor <=91){
+            tempData[row].tooltip = `LFI: ${factor}`
+            tempData[row].color = "#f44336"
+            tempData[row].radius = 45
+            tempData[row].name = tempData[row].nameHold
+          }else{
+            tempData[row].tooltip = `${tempData[row].nameHold} LFI: ${factor}`
+            tempData[row].color = "#ffcdd2"
+            tempData[row].radius = 25
+            tempData[row].name = ""
+          }
+          if(factor> winningFactor){
+            winnerCity = tempData[row].nameHold
+            winningFactor = factor
+          }
+          
+        }
+      }
+      for(let row1 in tempData){
+        if(tempData[row1].name==winnerCity){
+          tempData[row1].color = "#004d40"
+          tempData[row1].radius = 80
+        }
+      }
+      this.setState({
+        data: tempData,
+        winner: winnerCity,
+      })
+    }
+  );
+};
 
   hide = () => {
     this.setState({show: !this.state.show})
@@ -580,12 +615,13 @@ class CheckboxesGroup extends Component {
  
   render() {
     const { classes } = this.props;
-    const { one, two, three, four, five, six, seven} = this.state;
+    const { one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen} = this.state;
 
     return (
       <Router>
           <NavBar/>
           {this.state.show ? <div>
+            <Typography variant="h3" align="center">ONLY select from one mode at a time.</Typography>
             <Typography variant="h4" align="center">Please refresh the page if you are returning to the homepage from a previous selection.</Typography>
               <Grid container spacing={24}>
               <Grid item xs><Paper>
@@ -593,31 +629,31 @@ class CheckboxesGroup extends Component {
                       <FormLabel component="legend">Standard Mode | Select what is TRUE for you:</FormLabel>
                       <FormGroup>
                         <FormControlLabel
-                          control={<Checkbox checked={one} onChange={this.handleChange1(8)} value="8" />}
+                          control={<Checkbox checked={eight} onChange={this.handleChange1(8)} value="8" />}
                           label="Safety"
                         />
                         <FormControlLabel
-                          control={<Checkbox checked={two} onChange={this.handleChange1(9)} value="9" />}
+                          control={<Checkbox checked={nine} onChange={this.handleChange1(9)} value="9" />}
                           label="Environment"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={three} onChange={this.handleChange1(10)} value="10" />}
+                            control={<Checkbox checked={ten} onChange={this.handleChange1(10)} value="10" />}
                             label="Healthcare"
                         />
                         <FormControlLabel
-                          control={<Checkbox checked={four} onChange={this.handleChange1(11)} value="11" />}
+                          control={<Checkbox checked={eleven} onChange={this.handleChange1(11)} value="11" />}
                           label="Transportation"
                         />
                         <FormControlLabel
-                          control={<Checkbox checked={five} onChange={this.handleChange1(12)} value="12" />}
+                          control={<Checkbox checked={twelve} onChange={this.handleChange1(12)} value="12" />}
                           label="Government/Education"
                         />
                         <FormControlLabel
-                            control={<Checkbox checked={six} onChange={this.handleChange1(13)} value="13" />}
+                            control={<Checkbox checked={thirteen} onChange={this.handleChange1(13)} value="13" />}
                             label="Career/Job"
                         />
                         <FormControlLabel
-                          control={<Checkbox checked={seven} onChange={this.handleChange1(14)} value="14" />}
+                          control={<Checkbox checked={fourteen} onChange={this.handleChange1(14)} value="14" />}
                           label="Recreation/Amenities"
                         />
                       </FormGroup>
@@ -668,7 +704,7 @@ class CheckboxesGroup extends Component {
           {!this.state.show ?<div>
             <Grid container spacing={24}><Grid item xs></Grid><Grid item xs><Paper>
             <Button component={Link} to="/cse6242"
-                variant="contained" color="secondary" onClick={this.hide}>Return to homepage</Button>
+                variant="contained" color="secondary" onClick={this.hide}>Return to homepage | Don't click browser back button</Button>
                 <Route exact path="/results" render={ (props) => <Results {...props} allData = {this.state.data} winningCityName = {this.state.winner}/> } />
                 </Paper></Grid><Grid item xs></Grid></Grid>   
           </div> : null}
