@@ -703,7 +703,7 @@ class CheckboxesGroup extends Component {
           </div> : null}
           {!this.state.show ?<div>
             <Grid container spacing={24}><Grid item xs></Grid><Grid item xs><Paper>
-            <Button component={Link} to="/cse6242"
+            <Button component={Link} to="/cse6242-project"
                 variant="contained" color="secondary" onClick={this.hide}>Return to homepage | Don't click browser back button</Button>
                 <Route exact path="/results" render={ (props) => <Results {...props} allData = {this.state.data} winningCityName = {this.state.winner}/> } />
                 </Paper></Grid><Grid item xs></Grid></Grid>   
