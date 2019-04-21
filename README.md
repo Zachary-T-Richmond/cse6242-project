@@ -2,13 +2,16 @@
 This is the semester project for a Data and Visualization class; the team chose to do a livability indicator for the city of Atlanta to find out which location of the Greater Atlanta Metro area you should in based off of your selected preferences. 
 
 ## Technology Used
-The main framework for this application is React and it is deployed to GitHub pages. The team will be the first to note it does not take advantage of the entire React framework regarding state, props, and functional components. The reason for this is because the app uses D3.js to render the algorithm's output. Integrating React and D3.js was a difficult task and modifications to how the code should operate using React were changed. The main library used other than D3 was react-d3-bubble, which is an npm library. However, the team had to download the code, modify it, and plug it into the main code base because the library did not offer all the team needed out-of-the-box.
+The main framework for this application is React and it is deployed to GitHub pages. The team will be the first to note it does not take advantage of the entire React framework regarding state, props, and functional components. The reason for this is because the app uses D3.js to render the algorithm's output. Integrating React and D3.js was a difficult task and modifications to how the code should operate using React were changed. The main library used other than D3 was react-d3-bubble, which is an npm library. However, the team had to download the code, modify it, and plug it into the main code base because the library did not offer all the team needed out-of-the-box. This is a library that allows data to be passed to a component and the component will take care of rendering the data on the browser. This is much like the second homework assignment in CSE6242 Data Analytics & Visualization.
 
 ## Backlog
 1. Integrate with Google API to show heatmap of Atlanta divided by hub's GEOID
 2. Develop an API to expose the team's data on Google Cloud Platform
 3. Modify the current code base to read the data from the above API
 4. Refactor the code base to take full advantage of the React Framework
+
+## Assumptions
+The below "How to run the project" assumes you have node already installed on your computer. This is not an instruction on how to install node because it is fairly easy. To download node and follow the instruction provided by node please visit [NodeJS](https://nodejs.org/en/).
 
 ## How to run the project
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
